@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 import pywisetransfer
+from . import settings
+
 
 app = FastAPI()
 

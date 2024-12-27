@@ -9,10 +9,11 @@ See also:
 
 from typing import Callable, Generator
 import pytest
-import responses
+from responses import RequestsMock
 from pathlib import Path
 from fastapi.testclient import TestClient
 from limited_api_wise.app import app
+from limited_api_wise import settings
 
 
 HERE = Path(__file__).parent
@@ -30,9 +31,9 @@ for file in RESPONSES_WISE.iterdir():
 
 
 @pytest.fixture
-def rsps():
+def rsps() -> Generator[RequestsMock, None, None]:
     """Mock the requests API calls."""
-    rsps = responses.RequestsMock()
+    rsps = RequestsMock()
     rsps.start()
     yield rsps
     rsps.stop(allow_assert=False)
@@ -45,4 +46,10 @@ def api() -> Generator[TestClient, None, None]:
     See https://fastapi.tiangolo.com/tutorial/testing/#using-testclient
     """
     return TestClient(app)
-    
+
+@pytest.fixture
+def settings() -> Generator[settings.Settings, None, None]:
+    """Return the app settings."""
+    old_settings = settings.settings.model_copy()
+    yield settings.settings
+    settings.settings = old_settings

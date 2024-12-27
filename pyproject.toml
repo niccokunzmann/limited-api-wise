@@ -46,6 +46,7 @@ dependencies = [
     "click==8.1.8",
     "fastapi[standard]",
     "pywisetransfer",
+    "pydantic-settings",
 ]
 
 [project.optional-dependencies]
@@ -57,6 +58,7 @@ dev = [
 ]
 
 [project.scripts]
+limited-api-wise = "limited_api_wise.cli:main"
 
 [tool.hatch.metadata.hooks.vcs.urls]
 #[project.urls]
