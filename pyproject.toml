@@ -1,0 +1,82 @@
+# limitied-api-wise
+# Copyright (C) 2024 Nicco Kunzmann
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "limited-api-wise"
+license = "AGPL-3.0"
+keywords = ["banking", "wise", "limited-banking-api"]
+dynamic = ["urls", "version"]
+authors = [
+  { name="Nicco Kunzmann", email="niccokunzmann@rambler.ru" },
+]
+maintainers = [
+  { name="Nicco Kunzmann", email="niccokunzmann@rambler.ru" },
+]
+description = "Expose limited knowledge about Wise transactions."
+readme = "README.md"
+requires-python = ">=3.11"
+# see https://pypi.python.org/pypi?%3Aaction=list_classifiers
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Topic :: Office/Business :: Scheduling",
+]
+
+dependencies = [
+    "click==8.1.8",
+    "fastapi[standard]",
+    "pywisetransfer",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "black"
+]
+
+[project.scripts]
+
+[tool.hatch.metadata.hooks.vcs.urls]
+#[project.urls]
+Homepage = "https://github.com/niccokunzmann/limitied-api-wise/"
+Repository = "https://github.com/niccokunzmann/limitied-api-wise/"
+source_archive = "https://github.com/niccokunzmann/limitied-api-wise/archive/{commit_hash}.zip"
+Issues = "https://github.com/niccokunzmann/limitied-api-wise/issues"
+Documentation = "https://github.com/niccokunzmann/limitied-api-wise/"
+Changelog = "https://github.com/niccokunzmann/limitied-api-wise/#changelog"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.version.raw-options]
+# see https://github.com/ofek/hatch-vcs/issues/43#issuecomment-1553065222
+local_scheme = "no-local-version"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "limited_api_wise/_version.py"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.black]
+line-length = 100
