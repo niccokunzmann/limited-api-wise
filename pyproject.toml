@@ -51,7 +51,9 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "pytest",
-    "black"
+    "black",
+    "httpx",
+    "responses",
 ]
 
 [project.scripts]
