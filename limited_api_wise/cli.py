@@ -11,10 +11,11 @@ def check_profile_id():
     profiles = Settings.get().client.profiles.list()
     if not any(profile.id == Settings.get().profile_id for profile in profiles):
         print("You need to start the app with a profile id. Copy one from here:")
-        for profile in Settings.get().client.profiles.list():
+        for profile in profiles:
             name = f"{profile.details.firstName} {profile.details.lastName}" if profile.type == "personal" else profile.details.name
             print(f"profile_id: {profile.id} type: {profile.type} name: {name}")
         raise ValueError("Invalid profile_id in settings.")
+
 
 def main():
     """Run the application."""

@@ -22,9 +22,10 @@ class Transfer:
 class Wise:
     """Wrapper for pywisetransfer."""
 
-    def __init__(self, client: pywisetransfer.Client):
+    def __init__(self, client: pywisetransfer.Client, profile_id:int):
         """Create a new Wise wrapper."""
         self._client = client
+        self._profile_id = profile_id
 
     @property
     def transfers(self) -> list[Transfer]:

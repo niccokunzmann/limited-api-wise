@@ -47,7 +47,7 @@ class Settings(BaseSettings, cli_parse_args=not RUNS_IN_TESTS):
 
     @property
     def wise(self) -> Wise:
-        return Wise(self.client)
+        return Wise(self.client, self.profile_id)
 
 
 SETTINGS = Annotated[Settings, Depends(Settings.get)]
