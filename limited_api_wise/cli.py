@@ -8,7 +8,7 @@ from limited_api_wise.settings import Settings
 
 def check_profile_id():
     """List the available profiles on Wise if the id is not available."""
-    profiles = Settings.get().client.profiles.list()
+    profiles = Settings.get().wise.profiles
     if not any(profile.id == Settings.get().profile_id for profile in profiles):
         print("You need to start the app with a profile id. Copy one from here:")
         for profile in profiles:

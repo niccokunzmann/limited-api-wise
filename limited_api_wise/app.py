@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+
+from limited_api_wise.wise import Transfer
 from .settings import SETTINGS, WISE
 
 
@@ -21,10 +23,10 @@ def read_main(settings: SETTINGS):
     }
 
 
-@app.get("/v1/accounts")
-def get_transactions(wise: WISE):
+@app.get("/v1/transfers")
+def get_transfers(wise: WISE) -> list[Transfer]:
     """Get a list of all the sub-accounts."""
-    return wise.transactions
+    return wise.transfers
 
 
 __all__ = ["app"]
