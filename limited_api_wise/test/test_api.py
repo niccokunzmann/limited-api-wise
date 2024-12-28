@@ -22,3 +22,10 @@ def test_settings_show_version(api):
         "list": list(__version_tuple__),
         "source": "https://github.com/niccokunzmann/limited-api-wise",
     }
+
+
+def test_override_settings(api, settings):
+    """We want to change the settings."""
+    settings.environment = "live"
+    response = api.get("/settings.json").json()
+    assert response["environment"] == "live"

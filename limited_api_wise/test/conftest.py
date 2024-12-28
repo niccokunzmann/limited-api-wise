@@ -14,7 +14,7 @@ from responses import RequestsMock
 from pathlib import Path
 from fastapi.testclient import TestClient
 from limited_api_wise.app import app
-from limited_api_wise import settings
+from limited_api_wise.settings import Settings
 from limited_api_wise.wise import Wise
 from iso4217 import Currency
 from munch import Munch, munchify
@@ -53,12 +53,20 @@ def api() -> Generator[TestClient, None, None]:
     return TestClient(app)
 
 
+def get_settings_override():
+    """Return the settings which we use in this app."""
+
+
 @pytest.fixture
-def settings() -> Generator[settings.Settings, None, None]:
-    """Return the app settings."""
-    old_settings = settings.settings.model_copy()
-    yield settings.settings
-    settings.settings = old_settings
+def settings() -> Generator[Settings, None, None]:
+    """Return the app settings.
+
+    See https://fastapi.tiangolo.com/advanced/settings/#settings-and-testing
+    """
+    settings = Settings()
+    app.dependency_overrides[Settings.get] = lambda: settings
+    yield settings
+    del app.dependency_overrides[Settings.get]
 
 
 class MockWiseClient:
@@ -69,10 +77,14 @@ class MockWiseClient:
         self.transfers = self
 
     def add_standard(
-        self, target: Currency, amount: int, reference: str, source: Currency = Currency.EUR, status:str="outgoing_payment_sent"
+        self,
+        amount: int,
+        reference: str,
+        target: str = "USD",
+        source: str = "EUR",
+        status: str = "outgoing_payment_sent",
     ):
         """Add a transfer."""
-
         self._transfers.append(
             {
                 "id": 43726374 + len(self._transfers),
@@ -98,7 +110,7 @@ class MockWiseClient:
             }
         )
 
-    def list(self, profile_id: int, offset: int=None, limit: int=None) -> list[Munch]:
+    def list(self, profile_id: int, offset: int = None, limit: int = None) -> list[Munch]:
         """List the transfers"""
         assert offset % limit == 0
         return [munchify(t) for t in self._transfers[offset : offset + limit]]
@@ -107,8 +119,9 @@ class MockWiseClient:
 @pytest.fixture
 def transfers() -> MockWiseClient:
     """The transfers we make."""
+    return MockWiseClient()
 
 
 @pytest.fixture
 def wise(transfers) -> Wise:
-    return Wise(transfers)
+    return Wise(transfers, 10132)
