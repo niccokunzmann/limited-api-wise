@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from .settings import SETTINGS
+from .settings import SETTINGS, WISE
 
 
 app = FastAPI()
@@ -22,8 +22,9 @@ def read_main(settings: SETTINGS):
 
 
 @app.get("/v1/accounts")
-def get_sub_accounts():
+def get_transactions(wise: WISE):
     """Get a list of all the sub-accounts."""
+    return wise.transactions
 
 
 __all__ = ["app"]

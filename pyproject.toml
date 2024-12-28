@@ -48,6 +48,7 @@ dependencies = [
 #    "pywisetransfer",
     "pywisetransfer@git+https://github.com/niccokunzmann/pywisetransfer.git#egg=transfer",
     "pydantic-settings",
+    "iso4217",
 ]
 
 [project.optional-dependencies]
