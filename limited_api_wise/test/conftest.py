@@ -23,6 +23,7 @@ RESPONSES_WISE = HERE / "wise"
 for file in RESPONSES_WISE.iterdir():
     # Read all the YAML files and create fixtures.
     if file.suffix.lower() in (".yaml", ".yml"):
+
         @pytest.fixture(name=file.stem)
         def api_to_load(rsps, file_path=file):
             """Load a specific API."""
@@ -42,10 +43,11 @@ def rsps() -> Generator[RequestsMock, None, None]:
 @pytest.fixture
 def api() -> Generator[TestClient, None, None]:
     """Return the API test client.
-    
+
     See https://fastapi.tiangolo.com/tutorial/testing/#using-testclient
     """
     return TestClient(app)
+
 
 @pytest.fixture
 def settings() -> Generator[settings.Settings, None, None]:

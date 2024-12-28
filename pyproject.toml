@@ -45,7 +45,8 @@ classifiers = [
 dependencies = [
     "click==8.1.8",
     "fastapi[standard]",
-    "pywisetransfer",
+#    "pywisetransfer",
+    "pywisetransfer@git+https://github.com/niccokunzmann/pywisetransfer.git#egg=transfer",
     "pydantic-settings",
 ]
 

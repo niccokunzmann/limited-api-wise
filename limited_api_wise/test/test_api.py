@@ -13,6 +13,7 @@ def test_check_settings(api):
 def test_settings_show_version(api):
     """We want to know what code we are running."""
     from limited_api_wise import __version__, __version_tuple__
+
     response = api.get("/settings.json")
     assert response.status_code == 200
     r = response.json()
